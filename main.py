@@ -2,16 +2,21 @@ import mysql.connector
 import openpyxl
 from pathlib import Path
 import os
+import yaml
 
 def main():
     all_files = os.listdir("data/")   # imagine you're one directory above test dir
 
+    with open('config.yaml', 'r') as file:
+        stream = file.read()
+    config = yaml.safe_load(stream)
+
     # connect to MySQL database
     mydb = mysql.connector.connect(
-      host="127.0.0.1",
-      user="user",
-      password="password",
-      database="database"
+      host=config['host'],
+      user=config['user'],
+      password=config['password'],
+      database=config['database']
     )
 
     mycursor = mydb.cursor()
